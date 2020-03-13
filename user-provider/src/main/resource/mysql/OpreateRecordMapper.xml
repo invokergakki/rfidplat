@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iking.provider.dao.mapper.OpreateRecordMapper">
+  <resultMap id="BaseResultMap" type="com.iking.provider.dao.domain.OpreateRecord">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="added_number" jdbcType="INTEGER" property="addedNumber" />
+    <result column="updated_number" jdbcType="INTEGER" property="updatedNumber" />
+    <result column="is_queried" jdbcType="CHAR" property="isQueried" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, added_number, updated_number, is_queried
+  </sql>
+  <select id="selectByExample" parameterType="com.iking.provider.dao.domain.OpreateRecordExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from opreate_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from opreate_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from opreate_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.iking.provider.dao.domain.OpreateRecordExample">
+    delete from opreate_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.iking.provider.dao.domain.OpreateRecord">
+    insert into opreate_record (id, added_number, updated_number, 
+      is_queried)
+    values (#{id,jdbcType=INTEGER}, #{addedNumber,jdbcType=INTEGER}, #{updatedNumber,jdbcType=INTEGER}, 
+      #{isQueried,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.iking.provider.dao.domain.OpreateRecord">
+    insert into opreate_record
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="addedNumber != null">
+        added_number,
+      </if>
+      <if test="updatedNumber != null">
+        updated_number,
+      </if>
+      <if test="isQueried != null">
+        is_queried,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="addedNumber != null">
+        #{addedNumber,jdbcType=INTEGER},
+      </if>
+      <if test="updatedNumber != null">
+        #{updatedNumber,jdbcType=INTEGER},
+      </if>
+      <if test="isQueried != null">
+        #{isQueried,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.iking.provider.dao.domain.OpreateRecordExample" resultType="java.lang.Long">
+    select count(*) from opreate_record
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update opreate_record
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.addedNumber != null">
+        added_number = #{record.addedNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatedNumber != null">
+        updated_number = #{record.updatedNumber,jdbcType=INTEGER},
+      </if>
+      <if test="record.isQueried != null">
+        is_queried = #{record.isQueried,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update opreate_record
+    set id = #{record.id,jdbcType=INTEGER},
+      added_number = #{record.addedNumber,jdbcType=INTEGER},
+      updated_number = #{record.updatedNumber,jdbcType=INTEGER},
+      is_queried = #{record.isQueried,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iking.provider.dao.domain.OpreateRecord">
+    update opreate_record
+    <set>
+      <if test="addedNumber != null">
+        added_number = #{addedNumber,jdbcType=INTEGER},
+      </if>
+      <if test="updatedNumber != null">
+        updated_number = #{updatedNumber,jdbcType=INTEGER},
+      </if>
+      <if test="isQueried != null">
+        is_queried = #{isQueried,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectByIsQueried" parameterType="com.iking.provider.dao.domain.OpreateRecord" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from opreate_record
+    where is_queried = #{isQueried}
+  </select>
+
+
+  <update id="updateQueried">
+    update opreate_record
+    set
+    is_queried = 'Y'
+    where is_queried = 'N'
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iking.provider.dao.domain.OpreateRecord">
+    update opreate_record
+    set added_number = #{addedNumber,jdbcType=INTEGER},
+      updated_number = #{updatedNumber,jdbcType=INTEGER},
+      is_queried = #{isQueried,jdbcType=CHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

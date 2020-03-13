@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.iking.provider.dao.mapper.AssetsTagsInfoMapper">
+  <resultMap id="BaseResultMap" type="com.iking.provider.dao.domain.AssetsTagInfo">
+    <id column="assets_id" jdbcType="VARCHAR" property="assetsId" />
+    <result column="epc_id" jdbcType="VARCHAR" property="epcId" />
+    <result column="assets_number" jdbcType="VARCHAR" property="assetsNumber" />
+    <result column="scan_date" jdbcType="TIMESTAMP" property="scanDate" />
+    <result column="scan_place" jdbcType="VARCHAR" property="scanPlace" />
+    <result column="dev_name" jdbcType="VARCHAR" property="devName" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="opreate" jdbcType="VARCHAR" property="opreate" />
+    <result column="field3" jdbcType="VARCHAR" property="field3" />
+    <result column="field4" jdbcType="VARCHAR" property="field4" />
+    <result column="field5" jdbcType="VARCHAR" property="field5" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    assets_id, epc_id, assets_number, scan_date, scan_place, dev_name, status, opreate,
+    field3, field4, field5
+  </sql>
+  <select id="selectByExample" parameterType="com.iking.provider.dao.domain.AssetsTagInfoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from assets_tags_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectPagingInfo" resultMap="BaseResultMap" parameterType="map" >
+    SELECT *
+    FROM assets_tags_info
+    WHERE opreate="todo"
+    ORDER BY scan_date DESC LIMIT ${indexFrom},${indexCount}
+  </select>
+  <select id="selectPagingInfoCount" resultType="java.lang.Integer" parameterType="map" >
+    SELECT COUNT(*)
+    FROM assets_tags_info
+    WHERE opreate="todo"
+  </select>
+  <update id="update"
+          parameterType="com.iking.provider.dao.domain.AssetsTagInfo">
+update assets_tags_info
+set
+epc_id = #{epcId,jdbcType=VARCHAR},
+assets_number = #{assetsNumber,jdbcType=VARCHAR},
+scan_date = #{scanDate,jdbcType=TIMESTAMP},
+scan_place = #{scanPlace,jdbcType=VARCHAR},
+dev_name = #{devName,jdbcType=VARCHAR},
+status = #{status,jdbcType=VARCHAR},
+opreate = #{opreate,jdbcType=VARCHAR}
+where assets_id = #{assetsId,jdbcType=VARCHAR}
+</update>
+  <update id="updateByStatus"
+          parameterType="map">
+update assets_tags_info
+set status = "done",opreate = "done"
+where status = "todo" and assets_id = "${assetsId}"
+</update>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from assets_tags_info
+    where assets_id = #{assetsId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByAssetsId" parameterType="map" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from assets_tags_info
+    where assets_id = "${assetsId}"
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from assets_tags_info
+    where assets_id = #{assetsId,jdbcType=VARCHAR}
+  </delete>
+
+  <delete id="deleteByExample" parameterType="com.iking.provider.dao.domain.AssetsTagInfoExample">
+    delete from assets_tags_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.iking.provider.dao.domain.AssetsTagInfo">
+    insert into assets_tags_info (assets_id, epc_id, assets_number,
+      scan_date, scan_place, dev_name,
+      status, opreate, field3,
+      field4, field5)
+    values (#{assetsId,jdbcType=VARCHAR}, #{epcId,jdbcType=VARCHAR}, #{assetsNumber,jdbcType=VARCHAR},
+      #{scanDate,jdbcType=TIMESTAMP}, #{scanPlace,jdbcType=VARCHAR}, #{devName,jdbcType=VARCHAR},
+      #{status,jdbcType=VARCHAR}, #{opreate,jdbcType=VARCHAR}, #{field3,jdbcType=VARCHAR},
+      #{field4,jdbcType=VARCHAR}, #{field5,jdbcType=VARCHAR})
+  </insert>
+  <delete id="deleteByAssetsIdAndStatus"   parameterType="map">
+    delete from assets_tags_info
+    where opreate = "todo" and status is null
+  </delete>
+  <insert id="insertSelective" parameterType="com.iking.provider.dao.domain.AssetsTagInfo">
+    insert into assets_tags_info
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="assetsId != null">
+        assets_id,
+      </if>
+      <if test="epcId != null">
+        epc_id,
+      </if>
+      <if test="assetsNumber != null">
+        assets_number,
+      </if>
+      <if test="scanDate != null">
+        scan_date,
+      </if>
+      <if test="scanPlace != null">
+        scan_place,
+      </if>
+      <if test="devName != null">
+        dev_name,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="opreate != null">
+        opreate,
+      </if>
+      <if test="field3 != null">
+        field3,
+      </if>
+      <if test="field4 != null">
+        field4,
+      </if>
+      <if test="field5 != null">
+        field5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="assetsId != null">
+        #{assetsId,jdbcType=VARCHAR},
+      </if>
+      <if test="epcId != null">
+        #{epcId,jdbcType=VARCHAR},
+      </if>
+      <if test="assetsNumber != null">
+        #{assetsNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="scanDate != null">
+        #{scanDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scanPlace != null">
+        #{scanPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="devName != null">
+        #{devName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="opreate != null">
+        #{opreate,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null">
+        #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null">
+        #{field4,jdbcType=VARCHAR},
+      </if>
+      <if test="field5 != null">
+        #{field5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.iking.provider.dao.domain.AssetsTagInfoExample" resultType="java.lang.Long">
+    select count(*) from assets_tags_info
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update assets_tags_info
+    <set>
+      <if test="record.assetsId != null">
+        assets_id = #{record.assetsId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.epcId != null">
+        epc_id = #{record.epcId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.assetsNumber != null">
+        assets_number = #{record.assetsNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scanDate != null">
+        scan_date = #{record.scanDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.scanPlace != null">
+        scan_place = #{record.scanPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.devName != null">
+        dev_name = #{record.devName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.opreate != null">
+        opreate = #{record.opreate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field3 != null">
+        field3 = #{record.field3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field4 != null">
+        field4 = #{record.field4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.field5 != null">
+        field5 = #{record.field5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update assets_tags_info
+    set assets_id = #{record.assetsId,jdbcType=VARCHAR},
+    epc_id = #{record.epcId,jdbcType=VARCHAR},
+    assets_number = #{record.assetsNumber,jdbcType=VARCHAR},
+    scan_date = #{record.scanDate,jdbcType=TIMESTAMP},
+    scan_place = #{record.scanPlace,jdbcType=VARCHAR},
+    dev_name = #{record.devName,jdbcType=VARCHAR},
+    status = #{record.status,jdbcType=VARCHAR},
+    opreate = #{record.opreate,jdbcType=VARCHAR},
+    field3 = #{record.field3,jdbcType=VARCHAR},
+    field4 = #{record.field4,jdbcType=VARCHAR},
+    field5 = #{record.field5,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.iking.provider.dao.domain.AssetsTagInfo">
+    update assets_tags_info
+    <set>
+      <if test="epcId != null">
+        epc_id = #{epcId,jdbcType=VARCHAR},
+      </if>
+      <if test="assetsNumber != null">
+        assets_number = #{assetsNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="scanDate != null">
+        scan_date = #{scanDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="scanPlace != null">
+        scan_place = #{scanPlace,jdbcType=VARCHAR},
+      </if>
+      <if test="devName != null">
+        dev_name = #{devName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="opreate != null">
+        opreate = #{opreate,jdbcType=VARCHAR},
+      </if>
+      <if test="field3 != null">
+        field3 = #{field3,jdbcType=VARCHAR},
+      </if>
+      <if test="field4 != null">
+        field4 = #{field4,jdbcType=VARCHAR},
+      </if>
+      <if test="field5 != null">
+        field5 = #{field5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where assets_id = #{assetsId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.iking.provider.dao.domain.AssetsTagInfo">
+    update assets_tags_info
+    set epc_id = #{epcId,jdbcType=VARCHAR},
+      assets_number = #{assetsNumber,jdbcType=VARCHAR},
+      scan_date = #{scanDate,jdbcType=TIMESTAMP},
+      scan_place = #{scanPlace,jdbcType=VARCHAR},
+      dev_name = #{devName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      opreate = #{opreate,jdbcType=VARCHAR},
+      field3 = #{field3,jdbcType=VARCHAR},
+      field4 = #{field4,jdbcType=VARCHAR},
+      field5 = #{field5,jdbcType=VARCHAR}
+    where assets_id = #{assetsId,jdbcType=VARCHAR}
+  </update>
+</mapper>
